@@ -38,12 +38,23 @@ export function watch(ref, fn, lazy = true) {
   }
   tracked.get(ref).add(fn);
   if (!lazy) fn(ref.value);
+  return () => unwatch(ref, fn);
+}
+
+function unwatch(ref, fn) {
+  if (!tracked.has(ref)) return;
+  tracked.get(ref).delete(fn);
 }
 
 export function reactive(fn) {
   currentReactiveCode = fn;
   fn();
   currentReactiveCode = false;
+  return () => unreactive(fn);
+}
+
+function unreactive(fn) {
+  for (const [ref, set] of tracked) set.delete(fn);
 }
 
 export function computed(fn) {
