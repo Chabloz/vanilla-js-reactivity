@@ -29,7 +29,7 @@ const handlerRef = {
 };
 
 export function ref(value) {
-  return new Proxy({value: value}, handlerRef);
+  return new Proxy({value}, handlerRef);
 }
 
 export function watch(ref, fn, lazy = true) {
@@ -58,7 +58,7 @@ function unreactive(fn) {
 }
 
 export function computed(fn) {
-  let theRef = ref(0);
+  const theRef = ref(0);
   reactive(() => theRef.value = fn());
   return theRef;
 }
