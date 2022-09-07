@@ -3,10 +3,11 @@ const doItNextTick = new Map();
 let currentReactiveCode = false;
 
 function callNextTick() {
-  for (const [fn, value] of doItNextTick) {
-    fn(value);
-  }
-  doItNextTick.clear();
+  try {
+    for (const [fn, value] of doItNextTick) {
+      fn(value);
+    }
+  } finally { doItNextTick.clear() }
 }
 
 const handlerRef = {
