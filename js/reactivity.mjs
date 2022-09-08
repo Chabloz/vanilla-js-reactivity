@@ -54,7 +54,7 @@ export function reactive(fn) {
     currentReactiveCode = false;
   }
   reactiveFn();
-  return () => unreactive(fn);
+  return () => unreactive(reactiveFn);
 }
 
 function unreactive(fn) {
