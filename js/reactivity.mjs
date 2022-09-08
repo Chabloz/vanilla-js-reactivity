@@ -48,9 +48,12 @@ function unwatch(ref, fn) {
 }
 
 export function reactive(fn) {
-  currentReactiveCode = fn;
-  fn();
-  currentReactiveCode = false;
+  const reactiveFn = () => {
+    currentReactiveCode = reactiveFn;
+    fn();
+    currentReactiveCode = false;
+  }
+  reactiveFn();
   return () => unreactive(fn);
 }
 
