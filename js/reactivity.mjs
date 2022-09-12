@@ -33,13 +33,18 @@ export function ref(value) {
   return new Proxy({value}, handlerRef);
 }
 
-export function watch(ref, fn, lazy = true) {
-  if (!tracked.has(ref)) {
-    tracked.set(ref, new Set());
+export function watch(refs, fn, lazy = true) {
+  if (!Array.isArray(refs)) refs = [refs];
+  for (const ref of refs) {
+    if (!tracked.has(ref)) {
+      tracked.set(ref, new Set());
+    }
+    tracked.get(ref).add(fn);
   }
-  tracked.get(ref).add(fn);
-  if (!lazy) fn(ref.value);
-  return () => unwatch(ref, fn);
+  if (!lazy) fn();
+  return () => {
+    for (ref of refs) unwatch(ref, fn);
+  }
 }
 
 function unwatch(ref, fn) {
