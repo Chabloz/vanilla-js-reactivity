@@ -72,7 +72,6 @@ export function computed(fn) {
   return theRef;
 }
 
-
 export function nextTick() {
   return new Promise(resolve => resolve());
 }
