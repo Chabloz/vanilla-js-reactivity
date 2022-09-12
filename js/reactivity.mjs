@@ -43,7 +43,7 @@ export function watch(refs, fn, lazy = true) {
   }
   if (!lazy) fn();
   return () => {
-    for (ref of refs) unwatch(ref, fn);
+    for (const ref of refs) unwatch(ref, fn);
   }
 }
 
