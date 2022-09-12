@@ -71,3 +71,8 @@ export function computed(fn) {
   reactive(() => theRef.value = fn());
   return theRef;
 }
+
+
+export function nextTick() {
+  return new Promise(resolve => resolve());
+}
